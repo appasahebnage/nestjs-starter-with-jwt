@@ -18,7 +18,7 @@ const numCPUs: number = Number(
 );
 
 async function buildDocument(PORT: number) {
-  const packageJsonPath = path.join(__dirname, '../package.json');
+  const packageJsonPath = path.join(__dirname, '../../package.json');
   const file = fs.readFileSync(packageJsonPath);
   const { author, name, description, version } = JSON.parse(file.toString());
   const { name: authorName, email, url } = author;

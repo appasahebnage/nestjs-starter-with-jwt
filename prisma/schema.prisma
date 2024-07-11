@@ -1,0 +1,35 @@
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id           String @id() @map("id") @db.VarChar(40)
+    email        String @unique @map("email") @db.VarChar(30)
+    firstName    String @map("first_name") @db.VarChar(20)
+    lastName     String @map("last_name") @db.VarChar(20)
+    companyName  String @map("company_name") @db.VarChar(20)
+    passwordHash String @map("password_hash") @db.VarChar(70)
+    passwordSalt String @map("password_salt") @db.VarChar(50)
+
+    updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+    createdAt DateTime @default(now()) @map("created_at")
+    token     Token?
+
+    @@map("users")
+}
+
+model Token {
+    id        String   @id() @map("id") @db.VarChar(40)
+    token     String   @map("token") @db.Text()
+    updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+    createdAt DateTime @default(now()) @map("created_at")
+
+    user User @relation(fields: [id], references: [id])
+
+    @@map("tokens")
+}
